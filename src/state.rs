@@ -3,7 +3,7 @@ use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
 
-use cosmwasm_std::{Addr, BlockInfo, StdResult, Storage};
+use cosmwasm_std::{Addr, BlockInfo, StdResult, Storage, Decimal, Uint128};
 
 use cw721::{ContractInfoResponse, CustomMsg, Cw721, Expiration};
 use cw_storage_plus::{Index, IndexList, IndexedMap, Item, Map, MultiIndex};
@@ -137,4 +137,32 @@ where
 
 pub fn token_owner_idx<T>(d: &TokenInfo<T>) -> Addr {
     d.owner.clone()
+}
+
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct  Metadata{
+    // Identifies the asset to which this NFT represents
+    pub name: Option<String>,
+    // Describes the asset to which this NFT represents (may be empty)
+    pub description: Option<String>,
+    // An external URI
+    pub external_link: Option<String>,
+    // A collection this NFT belongs to
+    pub collection: Option<Uint128>,
+    // # of real piece representations
+    pub num_real_repr: Option<Uint128>,
+    // # of collectible nfts
+    pub num_nfts: Option<Uint128>,
+    // royalties
+    pub royalties: Option<Vec<Royalty>>,
+    // initial ask price
+    pub init_price: Option<Uint128>
+}
+
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct Royalty {
+  pub address: String,
+  pub royalty_rate: Decimal
 }

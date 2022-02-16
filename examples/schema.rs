@@ -8,6 +8,7 @@ use cw721::{
     NumTokensResponse, OperatorsResponse, OwnerOfResponse, TokensResponse,
 };
 use cw721_base::{ExecuteMsg, Extension, InstantiateMsg, MinterResponse, QueryMsg};
+use cw721_base::msg::{MintMsg};
 
 fn main() {
     let mut out_dir = current_dir().unwrap();
@@ -36,4 +37,6 @@ fn main() {
     export_schema(&schema_for!(NumTokensResponse), &out_dir);
     export_schema(&schema_for!(OwnerOfResponse), &out_dir);
     export_schema(&schema_for!(TokensResponse), &out_dir);
+    export_schema(&schema_for!(MintMsg<String>), &out_dir);
+
 }
