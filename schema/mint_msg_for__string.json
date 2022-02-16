@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MintMsg_for_String",
+  "type": "object",
+  "required": [
+    "extension",
+    "owner",
+    "token_id"
+  ],
+  "properties": {
+    "extension": {
+      "description": "Any custom extension used by this contract",
+      "type": "string"
+    },
+    "owner": {
+      "description": "The owner of the newly minter NFT",
+      "type": "string"
+    },
+    "token_id": {
+      "description": "Unique ID of the NFT",
+      "type": "string"
+    },
+    "token_uri": {
+      "description": "Universal resource identifier for this NFT Should point to a JSON file that conforms to the ERC721 Metadata JSON Schema",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
