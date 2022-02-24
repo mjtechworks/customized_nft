@@ -7,6 +7,9 @@ use cosmwasm_std::{Addr, BlockInfo, StdResult, Storage, Decimal, Uint128};
 
 use cw721::{ContractInfoResponse, CustomMsg, Cw721, Expiration};
 use cw_storage_plus::{Index, IndexList, IndexedMap, Item, Map, MultiIndex};
+use cosmwasm_storage::{Singleton, ReadonlySingleton};
+
+pub static CONFIG_COLLECTION: &[u8] = b"collection";
 
 pub struct Cw721Contract<'a, T, C>
 where
@@ -165,4 +168,21 @@ pub struct  Metadata{
 pub struct Royalty {
   pub address: String,
   pub royalty_rate: Decimal
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct Collection {
+    pub name: String,
+    pub description: Option<String>,
+    pub owner: Addr,
+    pub logo_url: Option<String>,
+    pub banner_url: Option<String>
+}
+
+pub fn store_collection(storage: &mut dyn Storage, data: &Collection) -> StdResult<()>{
+    Singleton::new(storage, CONFIG_COLLECTION).save(data)
+}
+
+pub fn read_collection(storage: &dyn Storage) -> StdResult<Collection> {
+    ReadonlySingleton::new(storage, CONFIG_COLLECTION).load()
 }

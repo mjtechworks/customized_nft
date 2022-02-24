@@ -12,7 +12,7 @@ use cw_storage_plus::Bound;
 use cw_utils::maybe_addr;
 
 use crate::msg::{MinterResponse, QueryMsg};
-use crate::state::{Approval, Cw721Contract, TokenInfo};
+use crate::state::{Approval, Cw721Contract, TokenInfo, Collection, read_collection};
 
 const DEFAULT_LIMIT: u32 = 10;
 const MAX_LIMIT: u32 = 30;
@@ -276,7 +276,11 @@ where
                 include_expired,
             } => {
                 to_binary(&self.approvals(deps, env, token_id, include_expired.unwrap_or(false))?)
-            }
+            },
+            QueryMsg::CollectionInfo { }
+                => {
+                    to_binary(&collection_info(deps, env)?)
+                }
         }
     }
 }
@@ -305,4 +309,12 @@ fn humanize_approval(approval: &Approval) -> cw721::Approval {
         spender: approval.spender.to_string(),
         expires: approval.expires,
     }
+}
+
+
+fn collection_info (
+    deps: Deps,
+    _env: Env
+) -> StdResult<Collection> {
+    read_collection(deps.storage)
 }
