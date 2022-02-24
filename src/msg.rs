@@ -15,6 +15,10 @@ pub struct InstantiateMsg {
     /// This is designed for a base NFT that is controlled by an external program
     /// or contract. You will likely replace this with custom logic in custom NFTs
     pub minter: String,
+    pub collection_name: String,
+    pub collection_description: Option<String>,
+    pub logo_url: Option<String>,
+    pub banner_url: Option<String>
 }
 
 /// This is like Cw721ExecuteMsg but we add a Mint command for an owner
@@ -145,6 +149,9 @@ pub enum QueryMsg {
 
     // Return the minter
     Minter {},
+
+    // Return the collection info
+    CollectionInfo {},
 }
 
 /// Shows who can mint these tokens

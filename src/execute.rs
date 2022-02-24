@@ -8,7 +8,7 @@ use cw721::{ContractInfoResponse, CustomMsg, Cw721Execute, Cw721ReceiveMsg, Expi
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InstantiateMsg, MintMsg};
-use crate::state::{Approval, Cw721Contract, TokenInfo};
+use crate::state::{Approval, Cw721Contract, TokenInfo, Collection, store_collection };
 
 // version info for migration info
 const CONTRACT_NAME: &str = "crates.io:cw721-base";
@@ -23,18 +23,29 @@ where
         &self,
         deps: DepsMut,
         _env: Env,
-        _info: MessageInfo,
+        info: MessageInfo,
         msg: InstantiateMsg,
     ) -> StdResult<Response<C>> {
         set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
 
-        let info = ContractInfoResponse {
+        let contract_info_resp = ContractInfoResponse {
             name: msg.name,
             symbol: msg.symbol,
         };
-        self.contract_info.save(deps.storage, &info)?;
+        self.contract_info.save(deps.storage, &contract_info_resp)?;
         let minter = deps.api.addr_validate(&msg.minter)?;
         self.minter.save(deps.storage, &minter)?;
+
+        let collection = Collection {
+            // collection_id: msg.collection_id.clone(),
+            name: msg.collection_name,
+            description: msg.collection_description,
+            owner: info.sender,
+            logo_url: msg.logo_url,
+            banner_url: msg.banner_url,
+        };
+        store_collection(deps.storage, &collection)?;
+        
         Ok(Response::default())
     }
 
