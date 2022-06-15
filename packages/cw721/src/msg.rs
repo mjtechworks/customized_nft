@@ -33,4 +33,5 @@ pub enum Cw721ExecuteMsg {
     },
     /// Remove previously granted ApproveAll permission
     RevokeAll { operator: String },
+    UpdateMinter { minter: String },
 }
