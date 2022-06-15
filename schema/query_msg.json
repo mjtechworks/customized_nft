@@ -280,6 +280,18 @@
         }
       },
       "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "collection_info"
+      ],
+      "properties": {
+        "collection_info": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
     }
   ]
 }

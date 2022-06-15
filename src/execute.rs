@@ -80,6 +80,7 @@ where
                 msg,
             } => self.send_nft(deps, env, info, contract, token_id, msg),
             ExecuteMsg::Burn { token_id } => self.burn(deps, env, info, token_id),
+            ExecuteMsg::UpdateMinter { new_minter } => self.update_minter(deps, env, info, new_minter),
         }
     }
 }
@@ -270,6 +271,25 @@ where
             .add_attribute("action", "burn")
             .add_attribute("sender", info.sender)
             .add_attribute("token_id", token_id))
+    }
+
+    fn update_minter(
+        &self,
+        deps: DepsMut,
+        _env: Env,
+        info: MessageInfo,
+        new_minter: String,
+    ) -> Result<Response<C>, ContractError> {
+        let minter = self.minter.load(deps.storage)?;
+
+        if info.sender != minter {
+            return Err(ContractError::Unauthorized {});
+        }
+        let new_minter_addr =  deps.api.addr_validate(&new_minter)?;
+        // self.minter.save(deps.storage, &new_minter_addr)?;
+        Ok(Response::new()
+            .add_attribute("minter", new_minter_addr)
+        )
     }
 }
 

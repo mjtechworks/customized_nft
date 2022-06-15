@@ -3,11 +3,33 @@
   "title": "InstantiateMsg",
   "type": "object",
   "required": [
+    "collection_name",
     "minter",
     "name",
     "symbol"
   ],
   "properties": {
+    "banner_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collection_description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collection_name": {
+      "type": "string"
+    },
+    "logo_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "minter": {
       "description": "The minter is the only one who can create new NFTs. This is designed for a base NFT that is controlled by an external program or contract. You will likely replace this with custom logic in custom NFTs",
       "type": "string"

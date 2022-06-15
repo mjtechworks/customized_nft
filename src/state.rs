@@ -151,8 +151,6 @@ pub struct  Metadata{
     pub description: Option<String>,
     // An external URI
     pub external_link: Option<String>,
-    // A collection this NFT belongs to
-    pub collection: Option<Uint128>,
     // # of real piece representations
     pub num_real_repr: Option<Uint128>,
     // # of collectible nfts

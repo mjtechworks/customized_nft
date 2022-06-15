@@ -91,6 +91,14 @@ where
         info: MessageInfo,
         token_id: String,
     ) -> Result<Response<C>, Self::Err>;
+
+    fn update_minter(
+        &self,
+        deps: DepsMut,
+        env: Env,
+        info: MessageInfo,      
+        new_minter: String,
+    ) -> Result<Response<C>, Self::Err>;
 }
 
 pub trait Cw721Query<T>

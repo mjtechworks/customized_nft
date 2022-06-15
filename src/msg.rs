@@ -1,7 +1,7 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::Binary;
+use cosmwasm_std::{Binary, Uint128};
 use cw721::Expiration;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -18,7 +18,8 @@ pub struct InstantiateMsg {
     pub collection_name: String,
     pub collection_description: Option<String>,
     pub logo_url: Option<String>,
-    pub banner_url: Option<String>
+    pub banner_url: Option<String>,
+    pub mint_number_limit: Option<Uint128>
 }
 
 /// This is like Cw721ExecuteMsg but we add a Mint command for an owner
@@ -59,6 +60,7 @@ pub enum ExecuteMsg<T> {
 
     /// Burn an NFT the sender has access to
     Burn { token_id: String },
+    UpdateMinter {new_minter: String}
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
